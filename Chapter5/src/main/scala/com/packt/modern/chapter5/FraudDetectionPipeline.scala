@@ -6,10 +6,10 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.linalg.DenseVector
 import org.apache.spark.rdd.RDD
-
+import org.apache.spark.sql.functions._
 import scala.collection.immutable.ListMap
 
-object FraudDetectionPipeline4 extends FraudDetectionWrapper4 {
+object FraudDetectionPipeline extends FraudDetectionWrapper {
 
   def main(args: Array[String]): Unit = {
 

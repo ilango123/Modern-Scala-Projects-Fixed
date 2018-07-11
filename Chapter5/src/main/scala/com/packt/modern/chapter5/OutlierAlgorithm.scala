@@ -4,12 +4,13 @@ import org.apache.commons.math3.distribution.NormalDistribution
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.linalg.{DenseVector, Vector}
 import org.apache.spark.sql.DataFrame
-
 import scala.collection.immutable.ListMap
 
-class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVector: DenseVector) extends Serializable with FraudDetectionWrapper4 {
 
-  val scores: ListMap[Int, Double] = new ListMap[Int, Double]()
+class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVector: DenseVector) extends Serializable with FraudDetectionWrapper {
+
+//class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVector: DenseVector) extends FraudDetectionWrapper {
+    val scores: ListMap[Int, Double] = new ListMap[Int, Double]()
 
       def tuneModel(): ListMap[Int, Double] = {
 
@@ -103,7 +104,7 @@ class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVec
         //println("minPVal: %s, maxPVal %s".format(minPval, maxPval))
 
         var bestErrorTermValue = 0D
-        var bestF1 = 0D
+        var bestF1Measure = 0D
 
         val stepsize = (maxMinPair._1 - maxMinPair._2) / 1000.0
         println("Step Size is: " + stepsize)
@@ -146,20 +147,20 @@ class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVec
 
           //We want to know how many False Positives
           val fPs = positivesNegatives(labelAndPredictions, 0.0, 1.0)
-          println("No of false negatives is: " + fPs)
+          //println("No of false negatives is: " + fPs)
 
 
 
           //We want to know how many True Positives
           val tPs = positivesNegatives(labelAndPredictions, 1.0, 1.0)
 
-          println("No of true Positives is: " + fPs)
+          //println("No of true Positives is: " + fPs)
 
 
           //We want to know how many True Positives
           val fNs = positivesNegatives(labelAndPredictions, 1.0, 0.0)
 
-          println("No of false Negatives  is: " + fPs)
+          //println("No of false Negatives  is: " + fPs)
           //we wanted False Positives,True Positives and True Positives to calculate precision and recall
 
           //Calculates the Precision
@@ -175,10 +176,10 @@ class OutlierAlgorithm(testingDframe: DataFrame, meansVector: DenseVector, sdVec
           //Determine the best Error Term value and the Best F1 measure
 
           if (f1Measure > bestF1Measure){
-              bestF1 = f1Measure
+              bestF1Measure = f1Measure
               bestErrorTermValue = errorTerm
             //println("f1Measure > bestF1Measure")
-             scores +( (1, bestErrorTerm), (2, bestF1) )
+             scores +( (1, bestErrorTermValue), (2, bestF1Measure) )
           }
         } //the end of the for loop
 

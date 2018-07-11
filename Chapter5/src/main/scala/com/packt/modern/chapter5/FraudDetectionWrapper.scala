@@ -5,14 +5,18 @@ import org.apache.log4j.{Level, Logger}
 import org.apache.spark.ml.linalg._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+object LoggerFactory extends Serializable {
+  @transient lazy val logger = Logger.getLogger(getClass.getName)
+}
 
-trait FraudDetectionWrapper4 {
+
+trait FraudDetectionWrapper {
 
   val trainSetFileName = "training.csv"
 
   val testSetFileName ="testing.csv"
 
-  val logger = Logger.getLogger(getClass.getName)
+  //val logger = Logger.getLogger(getClass.getName)
 
 
   /**The entry point to programming Spark with the Dataset and DataFrame API.
