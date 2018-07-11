@@ -2,6 +2,7 @@ package com.packt.modern.chapter3
 
 import org.apache.spark.ml.linalg.Vectors
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.types.{DateType, DoubleType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 
@@ -19,12 +20,24 @@ trait StockWrapper {
   }
 
 
+  val stockSchema: StructType = StructType(Array(
+    StructField("Date", DateType,false),
+    StructField("Open", DoubleType,false),
+    StructField("High", DoubleType,true),
+    StructField("low",  DoubleType,true),
+    StructField("Close",DoubleType,true),
+    StructField("Adj_Close", DoubleType,true),
+    StructField("Volume",  DoubleType,true)
+  ))
+
+
   val dataSetPath = "C:\\Users\\Ilango\\Documents\\Packt\\DevProjects\\Chapter32\\"
+
+  val pathToJar = "target\\scala-2.11\\chapter32_2.11-0.1.jar"
 
 
   def buildStockFrame(dataFile: String): DataFrame = {
     def getRows2: Array[(org.apache.spark.ml.linalg.Vector, String)] = {
-      //session.sparkContext.textFile(dataFile).filter(_(0) != session.sparkContext.textFile(dataFile).first()(0) ).flatMap {
       session.sparkContext.textFile(dataFile).flatMap {
         partitionLine => partitionLine.split("\n").toList
       }.map(_.split(",")).collect.drop(1).map( row => (Vectors.dense( row(1).toDouble,
@@ -43,6 +56,17 @@ trait StockWrapper {
     val stockFrameCached = dataFrame.cache
     //bcFrameCached
     stockFrameCached
+  }
+
+  /*
+  Get rid of nulls also
+   */
+  def buildStockFrame2(dataFile: String): DataFrame = {
+    session.read
+    .format("com.databricks.spark.csv")
+    .option("header", true).schema(stockSchema).option("nullValue","")
+      .option("treatEmptyValuesAsNulls","true")
+    .load(dataFile).cache()
   }
 
 
