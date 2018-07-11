@@ -9,9 +9,9 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.functions._
 import scala.collection.immutable.ListMap
 
-object FraudDetectionPipeline extends FraudDetectionWrapper {
+object FraudDetectionPipeline extends App with FraudDetectionWrapper {
 
-  def main(args: Array[String]): Unit = {
+  //def main(args: Array[String]): Unit = {
 
 
     //************************Training Data*******************************
@@ -163,10 +163,7 @@ object FraudDetectionPipeline extends FraudDetectionWrapper {
 
           outlierAlgorithm.tuneModel()
 
-  } //main
-
-
-
+  //} //main
 
 }
 
