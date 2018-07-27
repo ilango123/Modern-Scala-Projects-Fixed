@@ -12,7 +12,7 @@ import org.apache.spark.sql.functions.explode
   How to run it:
   sbt console
   scala> import com.packt.modern.chapter4.SpamClassifierPipeline
-  scala> SpamClassifierPipeline.main(Array("inbox2.txt"))
+  scala> SpamClassifierPipeline.main(Array("inbox.txt"))
   //Next time, try loading it on HDFS
 
 */
@@ -23,7 +23,7 @@ object SpamClassifierPipeline extends App with SpamWrapper {
 
 
     val reg1 = raw"[^A-Za-z0-9\s]+" // remove punctuation with numbers
-    val reg2 = raw"[^A-Za-z\s]+" // remove punctuation not include numbers
+    val regex2 = raw"[^A-Za-z\s]+" // remove punctuation not include numbers
 
     val hamRDD: org.apache.spark.rdd.RDD[String] = session.sparkContext.textFile(hamSetFileName)
     val hamRDD2 = hamRDD.map(_.replaceAll(reg1, "").trim.toLowerCase)
@@ -46,9 +46,9 @@ object SpamClassifierPipeline extends App with SpamWrapper {
     ///////////////////////////////////////////////////////////////////////////////
 
     //Or use this
-    val dataFrame1 = session.createDataFrame(hamAndSpam).toDF("label","lowerCasedSentences")
+    val hamAndSpamDFrame = session.createDataFrame(hamAndSpam).toDF("label","lowerCasedSentences")
 
-    val lowerCasedDataFrame = dataFrame1.select(dataFrame1("lowerCasedSentences"), dataFrame1("label"))
+    val lowerCasedDataFrame = hamAndSpamDFrame.select(hamAndSpamDFrame("lowerCasedSentences"), hamAndSpamDFrame("label"))
     println("lowerCasedDataFrame looks like this:")
     lowerCasedDataFrame.show
 

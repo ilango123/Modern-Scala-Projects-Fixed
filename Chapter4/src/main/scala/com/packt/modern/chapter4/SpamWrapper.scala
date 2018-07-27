@@ -4,9 +4,9 @@ import org.apache.spark.sql.SparkSession
 
 trait SpamWrapper {
 
-  val hamSetFileName = "inbox2.txt"
+  val hamSetFileName = "inbox.txt"
 
-  val spamFileName ="junk2.txt"
+  val spamFileName ="junk.txt"
 
   //The entry point to programming Spark with the Dataset and DataFrame API.
   //This is the SparkSession
