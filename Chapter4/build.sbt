@@ -1,3 +1,4 @@
+
 organization := "com.packt.modern.chapter4"
 name := "Chapter4"
 version := "0.1"
@@ -21,4 +22,9 @@ libraryDependencies ++= Seq(
 
 resolvers += "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
 resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
 

@@ -1,11 +1,8 @@
 package com.packt.modern.chapter4
 
 import org.apache.spark.sql.SparkSession
-import org.apache.logging.log4j.scala.Logging
-import org.apache.logging.log4j.Level
 
-
-trait SpamWrapper extends Logging{
+trait SpamWrapper {
 
   val hamSetFileName = "inbox2.txt"
 
@@ -21,11 +18,6 @@ trait SpamWrapper extends Logging{
       .appName("spam-classifier-pipeline")
       .getOrCreate()
   }
-
-    //logger.getLogger("org").setLevel(Level.OFF)
-  //logger.getLogger("akka").setLevel(Level.OFF)
-    logger.apply(Level.OFF, "org")
-    logger.apply(Level.OFF, "akka")
 
 }
 
