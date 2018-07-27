@@ -1,17 +1,13 @@
 package com.packt.modern.chapter5
 
-import org.apache.commons.math3.distribution.NormalDistribution
-import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.apache.spark.ml.linalg.{Vector, Vectors}
 import org.apache.spark.ml.linalg.DenseVector
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.functions._
-import scala.collection.immutable.ListMap
+
 
 object FraudDetectionPipeline extends App with FraudDetectionWrapper {
-
-  //def main(args: Array[String]): Unit = {
 
 
     //************************Training Data*******************************
@@ -162,8 +158,6 @@ object FraudDetectionPipeline extends App with FraudDetectionWrapper {
           val outlierAlgorithm = new OutlierAlgorithm(cachedTestingDf, meansVector, sdVector)
 
           outlierAlgorithm.tuneModel()
-
-  //} //main
 
 }
 

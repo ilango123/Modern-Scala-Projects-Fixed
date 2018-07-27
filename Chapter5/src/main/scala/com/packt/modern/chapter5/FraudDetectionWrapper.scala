@@ -1,6 +1,5 @@
 package com.packt.modern.chapter5
 
-import org.apache.commons.math3.distribution.NormalDistribution
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.ml.linalg._
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -15,9 +14,6 @@ trait FraudDetectionWrapper {
   val trainSetFileName = "training.csv"
 
   val testSetFileName ="testing.csv"
-
-  //val logger = Logger.getLogger(getClass.getName)
-
 
   /**The entry point to programming Spark with the Dataset and DataFrame API.
   This is the SparkSession
